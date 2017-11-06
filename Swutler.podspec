@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
     
     s.name            = "Swutler"
-    s.version         = "0.0.1"
+    s.version         = "0.0.2"
     s.summary         = "A small library with handy Swift helpers."
     s.requires_arc    = true
     s.homepage        = "https://github.com/im3der/Swutler"
