@@ -7,13 +7,13 @@
 
 import UIKit
 
-struct KeyboardEvent {
-    let animationDuration : TimeInterval
-    let animationCurve    : UIViewAnimationCurve
-    let beginFrame        : CGRect
-    let endFrame          : CGRect
+public struct KeyboardEvent {
+    public let animationDuration : TimeInterval
+    public let animationCurve    : UIViewAnimationCurve
+    public let beginFrame        : CGRect
+    public let endFrame          : CGRect
 
-    init?(notification : Notification) {
+    public init?(notification : Notification) {
         guard
                 let animationDuration    = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
                 let animationCurveNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey]    as? NSNumber,
@@ -35,7 +35,7 @@ struct KeyboardEvent {
         self.endFrame          = endFrameNumber.cgRectValue
     }
 
-    func animationOptions() -> UIViewAnimationOptions {
+    public func animationOptions() -> UIViewAnimationOptions {
         switch animationCurve {
         case .easeInOut:
             return UIViewAnimationOptions()

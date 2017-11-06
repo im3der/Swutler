@@ -5,6 +5,6 @@
 //  Copyright © 2017 Code&Coding. All rights reserved.
 //
 
-public protocol Theme {
+public protocol Themeable {
     static func apply()
 }

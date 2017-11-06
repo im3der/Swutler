@@ -10,7 +10,7 @@ import UIKit
 
 extension UIImage {
     
-    convenience init?(named: String) {
+    public convenience init?(named: String) {
         let bundle = Bundle(for: type(of: self))
         
         self.init(named: named, in: bundle, compatibleWith: nil)

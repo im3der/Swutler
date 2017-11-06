@@ -7,9 +7,9 @@
 
 import UIKit
 
-extension UIButton {
+public extension UIButton {
 
-    var cornerRadius: CGFloat {
+    public var cornerRadius: CGFloat {
         get {
             return layer.cornerRadius
         }
@@ -20,8 +20,8 @@ extension UIButton {
         }
     }
     
-    func kern(_ kerningValue:CGFloat) {
-        let attributedText =  NSAttributedString(string: self.titleLabel!.text!, attributes: [NSKernAttributeName:kerningValue, NSFontAttributeName:self.titleLabel!.font, NSForegroundColorAttributeName:self.titleLabel!.textColor])
+    public func kern(_ kerningValue:CGFloat) {
+        let attributedText =  NSAttributedString(string: self.titleLabel!.text!, attributes: [NSAttributedStringKey.kern:kerningValue, NSAttributedStringKey.font:self.titleLabel!.font, NSAttributedStringKey.foregroundColor:self.titleLabel!.textColor])
         self.setAttributedTitle(attributedText, for: UIControlState())
     }
     
@@ -39,7 +39,7 @@ extension UIButton {
         self.layer.mask = mask
     }
     
-    func animate(button: UIButton, toTitle title: String, textColor: UIColor, duration: CFTimeInterval = 0.5) {
+    public func animate(button: UIButton, toTitle title: String, textColor: UIColor, duration: CFTimeInterval = 0.5) {
         let transition      = CATransition()
         transition.type     = kCATransitionPush
         transition.subtype  = kCATransitionFromTop

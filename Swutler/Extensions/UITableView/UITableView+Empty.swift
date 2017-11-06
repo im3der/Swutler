@@ -9,38 +9,42 @@ import UIKit
 
 extension UITableView {
     
-    public func showEmpty(image: UIImage, message: String, font: UIFont, textColor: UIColor) {
+    public func showEmpty(image: UIImage?, message: String?, font: UIFont = UIFont.systemFont(ofSize: 12), textColor: UIColor? = nil) {
         
         struct LayoutConstants {
             static let padding   : CGFloat  = 20
-            static let imageWidth: CGFloat  = 100
+            static let imageWidth: CGFloat  = 136
             static let spacing   : CGFloat  = 20
             static let lineHeight: CGFloat  = 1.2
         }
         
-        let icon: UIImageView   = UIImageView(image: image)
-        icon.frame              = CGRect(x: 0,
-                                         y: 0,
-                                         width: LayoutConstants.imageWidth,
-                                         height: LayoutConstants.imageWidth)
-        icon.center             = CGPoint(x: bounds.width * 0.5, y: (bounds.height * 0.3) )
+        let wrapper     = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: frame.height))
         
-        let body: UILabel       = UILabel(frame: CGRect(x: LayoutConstants.padding * 1.5,
+        if let img = image {
+            let icon: UIImageView   = UIImageView(image: img)
+            icon.frame              = CGRect(x: self.tableHeaderView?.frame.height ?? 0,
+                                             y: LayoutConstants.padding,
+                                             width: LayoutConstants.imageWidth,
+                                             height: LayoutConstants.imageWidth)
+            icon.center.x             =  bounds.width * 0.5
+            
+            wrapper.addSubview(icon)
+        }
+        
+        let body: UILabel   = UILabel(frame: CGRect(x: LayoutConstants.padding,
                                                         y: 0,
-                                                        width: bounds.width - LayoutConstants.padding * 3,
+                                                        width: bounds.width - LayoutConstants.padding * 2,
                                                         height: bounds.height))
-        body.numberOfLines      = 0
-        body.text               = message
-        body.font               = font
-        body.textColor          = textColor
-        body.textAlignment      = .center
-        body.center             = CGPoint(x: bounds.width * 0.5, y: icon.center.y + (icon.bounds.height * 0.5) + (LayoutConstants.spacing * 2))
+        body.numberOfLines  = 0
+        body.text           = message ?? ""
+        body.font           = font
+        body.textColor      = textColor ?? UIColor.black
+        body.textAlignment  = .center
+        body.frame.origin.y = image != nil ? LayoutConstants.padding + LayoutConstants.imageWidth + (LayoutConstants.spacing * 1) : LayoutConstants.padding
         body.set(lineHeight: LayoutConstants.lineHeight)
         body.sizeToFit()
+        body.center.x       = bounds.width * 0.5
         
-        let wrapper             = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: bounds.height))
-        
-        wrapper.addSubview(icon)
         wrapper.addSubview(body)
         
         backgroundView = wrapper

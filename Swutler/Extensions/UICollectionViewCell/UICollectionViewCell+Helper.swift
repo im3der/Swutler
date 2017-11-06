@@ -9,7 +9,7 @@ import UIKit
 
 extension UICollectionViewCell {
 
-    static var defaultReuseIdentifier : String {
+    public static var defaultReuseIdentifier : String {
         return "\(self)"
     }
 }

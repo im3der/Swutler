@@ -10,8 +10,8 @@ import UIKit
 extension UIViewController {
     
     // Storyboard
-    public class func instantiateFromStoryboard(storyboardName: String, storyboardId: String = "") -> Self {
-        return instantiateFromStoryboardHelper(storyboardName: storyboardName, storyboardId: storyboardId)
+    public class func instantiateFrom(storyboard: String, withID: String = "") -> Self {
+        return instantiateFromStoryboardHelper(storyboardName: storyboard, storyboardId: withID)
     }
     
     private class func instantiateFromStoryboardHelper<T>(storyboardName: String, storyboardId: String) -> T {
