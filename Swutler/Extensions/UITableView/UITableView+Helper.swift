@@ -7,10 +7,20 @@
 
 import Foundation
 
-extension UITableView {
+public extension UITableView {
     
     public func reloadData(_ completion: @escaping ()->Void) {
         UIView.animate(withDuration: 0, animations: { self.reloadData() }, completion: { _ in completion() })
     }
-    
+
+    public func dequeue<Cell>() -> Cell where Cell : UITableViewCell {
+        if let cell = self.dequeueReusableCell(withIdentifier: Cell.defaultReuseIdentifier) as? Cell {
+            return cell
+        }
+        
+        Cell.register(on: self)
+        
+        return self.dequeueReusableCell(withIdentifier: Cell.defaultReuseIdentifier) as! Cell
+    }
 }
+

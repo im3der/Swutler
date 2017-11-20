@@ -12,4 +12,10 @@ extension UITableViewCell {
     public static var defaultReuseIdentifier : String {
         return "\(self)"
     }
+    
+    public static func register(on tableView: UITableView) {
+    
+        tableView.register(UINib(nibName: defaultReuseIdentifier, bundle: nil), forCellReuseIdentifier: defaultReuseIdentifier)
+    }
+    
 }
