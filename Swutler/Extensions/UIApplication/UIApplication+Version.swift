@@ -10,21 +10,17 @@ import UIKit
 extension UIApplication {
     
     public var applicationVersion:String {
-        let bundle = Bundle(for: type(of: self))
-        
-        return bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     }
     
     public var applicationBuild:String  {
-        let bundle = Bundle(for: type(of: self))
-        
-        return bundle.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
+        return Bundle.main.infoDictionary?["CFBundleVersion"] as! String
     }
     
     public var versionBuild:String  {
         let version = self.applicationVersion
         let build   = self.applicationBuild
-        return "v:\(version) b:(\(build))"
+        return "\(version) (\(build))"
     }
     
     public class func topViewController(_ base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

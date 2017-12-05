@@ -9,43 +9,72 @@ import UIKit
 
 extension UITableView {
     
-    public func showEmpty(image: UIImage?, message: String?, font: UIFont = UIFont.systemFont(ofSize: 12), textColor: UIColor? = nil) {
+    public func showEmpty(image: UIImage, title: String, description: String, titleFont: UIFont = UIFont.systemFont(ofSize: 12), descriptionFont: UIFont = UIFont.systemFont(ofSize: 12), textColor: UIColor? = nil) {
         
         struct LayoutConstants {
-            static let padding   : CGFloat  = 20
-            static let imageWidth: CGFloat  = 136
-            static let spacing   : CGFloat  = 20
-            static let lineHeight: CGFloat  = 1.2
+            static let padding      : CGFloat  = 40
+            static let imageWidth   : CGFloat  = 136
+            static let spacing      : CGFloat  = 20
+            static let lineHeight   : CGFloat  = 1.5
+            static let maxWidth     : CGFloat  = 280
         }
+        
+        var titleLabel: UILabel = {
+            let view            = UILabel()
+            view.font           = titleFont
+            view.numberOfLines  = 0
+            view.text           = title
+            view.textColor      = textColor ?? UIColor.black
+            view.textAlignment  = .center
+            return view
+        }()
+        
+        var descriptionLabel: UILabel = {
+            let view            = UILabel()
+            view.font           = descriptionFont
+            view.numberOfLines  = 0
+            view.text           = description
+            view.textAlignment  = .center
+            view.textColor      = textColor ?? UIColor.black
+            view.set(lineHeight: LayoutConstants.lineHeight)
+            return view
+        }()
         
         let wrapper     = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: frame.height))
+        let inner       = UIView(frame: wrapper.frame)
         
-        if let img = image {
-            let icon: UIImageView   = UIImageView(image: img)
-            icon.frame              = CGRect(x: self.tableHeaderView?.frame.height ?? 0,
-                                             y: LayoutConstants.padding,
+            let icon: UIImageView   = UIImageView(image: image)
+            icon.contentMode        = .scaleAspectFit
+            icon.frame              = CGRect(x: 0,
+                                             y: 0,
                                              width: LayoutConstants.imageWidth,
                                              height: LayoutConstants.imageWidth)
-            icon.center.x             =  bounds.width * 0.5
+            icon.center.x           = bounds.width * 0.5
             
-            wrapper.addSubview(icon)
-        }
+            inner.addSubview(icon)
         
-        let body: UILabel   = UILabel(frame: CGRect(x: LayoutConstants.padding,
-                                                        y: 0,
-                                                        width: bounds.width - LayoutConstants.padding * 2,
-                                                        height: bounds.height))
-        body.numberOfLines  = 0
-        body.text           = message ?? ""
-        body.font           = font
-        body.textColor      = textColor ?? UIColor.black
-        body.textAlignment  = .center
-        body.frame.origin.y = image != nil ? LayoutConstants.padding + LayoutConstants.imageWidth + (LayoutConstants.spacing * 1) : LayoutConstants.padding
-        body.set(lineHeight: LayoutConstants.lineHeight)
-        body.sizeToFit()
-        body.center.x       = bounds.width * 0.5
+
+        inner.addSubview(titleLabel)
+        inner.addSubview(descriptionLabel)
         
-        wrapper.addSubview(body)
+        let titleLabelSize       = titleLabel      .sizeThatFits(CGSize(width: LayoutConstants.maxWidth, height: 0))
+        let descriptionLabelSize = descriptionLabel.sizeThatFits(CGSize(width: LayoutConstants.maxWidth, height: 0))
+        
+        let titleLabelFrame = CGRect(
+            origin: CGPoint(x: (bounds.width - LayoutConstants.maxWidth) * 0.5, y: LayoutConstants.imageWidth + LayoutConstants.spacing),
+            size: CGSize(width: LayoutConstants.maxWidth, height: titleLabelSize.height)
+        )
+        
+        let descriptionLabelFrame = CGRect(
+            origin: CGPoint(x: (bounds.width - LayoutConstants.maxWidth) * 0.5, y: titleLabelSize.height + LayoutConstants.spacing + LayoutConstants.imageWidth + (LayoutConstants.spacing / 4)),
+            size: CGSize(width: LayoutConstants.maxWidth, height: descriptionLabelSize.height)
+        )
+        
+        titleLabel      .frame = titleLabelFrame
+        descriptionLabel.frame = descriptionLabelFrame
+
+        inner.center.y = bounds.height * 0.5 + LayoutConstants.padding
+        wrapper.addSubview(inner)
         
         backgroundView = wrapper
     }
